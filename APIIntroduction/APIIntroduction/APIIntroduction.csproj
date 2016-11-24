@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LeagueObjects\MinimalChampionDto.cs" />
+    <Compile Include="ApiHelpers\LeagueURLBuilder.cs" />
+    <Compile Include="ApiHelpers\LeagueURLConstants.cs" />
+    <Compile Include="LeagueObjects\MinStaticChampionDto.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

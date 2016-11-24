@@ -1,4 +1,5 @@
-﻿using APIIntroduction.LeagueObjects;
+﻿using APIIntroduction.ApiHelpers;
+using APIIntroduction.LeagueObjects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,29 @@ namespace APIIntroduction
     {
         static void Main(string[] args)
         {
-            string APIKeyFile = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().CodeBase, "APIKey.txt");
+            string APIKeyFile = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "APIKey.txt");
+
+            string APIKey = null;
 
             if(!File.Exists(APIKeyFile))
             {
                 Console.WriteLine("Please enter in your API Key");
-                Console.ReadLine();
+                APIKey = Console.ReadLine();
+                File.WriteAllText(APIKeyFile, APIKey);
+            }
+            else
+            {
+                APIKey = File.ReadAllText(APIKeyFile);
             }
 
-            string sURL = @"https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/143?api_key=<API-KEY>"; //Replace API-KEY with the actual API key
+            string sURL = String.Format("https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/143?api_key={0}", APIKey);
+
+            //Playing with a URL builder
+            LeagueURLBuilder TestBuilder = new LeagueURLBuilder();
+            TestBuilder.BaseURL = "https://global.api.pvp.net/";
+            TestBuilder.APIPath = "api/lol/static-data/na/v1.2/champion/143";
+            TestBuilder.Parameters = new Dictionary<string, string>() { { "api_key", APIKey } };
+            string otherURL = TestBuilder.GetFullURL();
 
             WebRequest wrGETURL = WebRequest.Create(sURL);
 
@@ -33,7 +48,7 @@ namespace APIIntroduction
             using (StreamReader response = new StreamReader(wrGETURL.GetResponse().GetResponseStream()))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                MinimalChampionDto leagueChampion = (MinimalChampionDto)serializer.Deserialize(response, typeof(MinimalChampionDto));
+                MinStaticChampionDto leagueChampion = (MinStaticChampionDto)serializer.Deserialize(response, typeof(MinStaticChampionDto));
             }
 
             Console.ReadLine();
