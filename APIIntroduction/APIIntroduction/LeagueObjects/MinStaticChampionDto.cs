@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APIIntroduction.LeagueObjects
 {
-    class MinStaticChampionDto
+    public class MinStaticChampionDto
     {
         public int id { get; set; }
         public string title { get; set; }
