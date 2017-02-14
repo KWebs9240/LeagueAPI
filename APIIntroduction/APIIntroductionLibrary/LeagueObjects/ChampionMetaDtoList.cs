@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace APIIntroduction.LeagueObjects
 {
-    public class DynamicChampionDtoList
+    public class ChampionMetaDtoList
     {
         [JsonProperty("champions")]
-        public List<DynamicChampionDto> Champions { get; set; }
+        public List<ChampionMetaDto> Champions { get; set; }
     }
 }

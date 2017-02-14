@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace APIIntroduction.LeagueObjects
 {
-    public class DynamicChampionDto
+    public class ChampionMetaDto
     {
         [JsonProperty("active")]
-        bool Active { get; set; }
+        public bool Active { get; set; }
 
         [JsonProperty("botEnabled")]
-        bool BotEnabled { get; set; }
+        public bool BotEnabled { get; set; }
 
         [JsonProperty("botMmEnabled")]
-        bool BotMmEnabled { get; set; }
+        public bool BotMmEnabled { get; set; }
 
         [JsonProperty("freeToPlay")]
-        bool FreeToPlay { get; set; }
+        public bool FreeToPlay { get; set; }
 
         [JsonProperty("id")]
-        long Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("rankedPlayEnabled")]
-        bool RankedPlayEnabled { get; set; }
+        public bool RankedPlayEnabled { get; set; }
     }
 }

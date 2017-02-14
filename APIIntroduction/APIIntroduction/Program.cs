@@ -1,6 +1,5 @@
 ﻿using APIIntroduction.ApiHelpers;
 using APIIntroduction.LeagueObjects;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,7 +27,19 @@ namespace APIIntroduction
                 LeagueAPIStaticFunctions.APIKey = File.ReadAllText(APIKeyFile);
             }
 
-            DynamicChampionDtoList testingOut = LeagueAPIStaticFunctions.GetCurrentFreeToPlayList();
+            ChampionMetaDtoList freeToPlayMetaList = LeagueAPIStaticFunctions.GetCurrentFreeToPlayListHttpClient();
+
+            List<ChampionDto> freeToPlayList = new List<ChampionDto>();
+
+            foreach(ChampionMetaDto champMeta in freeToPlayMetaList.Champions)
+            {
+                freeToPlayList.Add(LeagueAPIStaticFunctions.GetChampionFromIDHttpClient(Convert.ToInt32(champMeta.Id)));
+            }
+
+            foreach(ChampionDto champ in freeToPlayList)
+            {
+                Console.WriteLine(string.Format("{0:000}: {1}", champ.Id, champ.Name));
+            }
 
             Console.ReadLine();
         }
