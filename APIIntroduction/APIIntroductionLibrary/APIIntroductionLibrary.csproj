@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiHelpers\LeagueAPIStaticFunctions.cs" />
-    <Compile Include="ApiHelpers\LeagueURLBuilder.cs" />
     <Compile Include="ApiHelpers\LeagueURLConstants.cs" />
     <Compile Include="LeagueObjects\ChampionDto.cs" />
     <Compile Include="LeagueObjects\ChampionMetaDto.cs" />
