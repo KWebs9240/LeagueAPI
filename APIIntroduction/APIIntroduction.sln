@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIIntroduction", "APIIntro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIIntroductionLibrary", "APIIntroductionLibrary\APIIntroductionLibrary.csproj", "{4F9BE59C-1A77-4929-BA5F-01C83615D428}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIIntroductionTests", "APIIntroductionTests\APIIntroductionTests.csproj", "{F6405470-7DCF-41BA-9BBF-EB5AA7892340}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4F9BE59C-1A77-4929-BA5F-01C83615D428}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F9BE59C-1A77-4929-BA5F-01C83615D428}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F9BE59C-1A77-4929-BA5F-01C83615D428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6405470-7DCF-41BA-9BBF-EB5AA7892340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6405470-7DCF-41BA-9BBF-EB5AA7892340}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6405470-7DCF-41BA-9BBF-EB5AA7892340}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6405470-7DCF-41BA-9BBF-EB5AA7892340}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
