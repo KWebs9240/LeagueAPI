@@ -1,4 +1,4 @@
-﻿using APIIntroduction.LeagueObjects;
+﻿using APIIntroductionLibrary.LeagueObjects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIIntroduction.ApiHelpers
+namespace APIIntroductionLibrary.ApiHelpers
 {
     public static class LeagueAPIStaticFunctions
     {
@@ -59,6 +59,26 @@ namespace APIIntroduction.ApiHelpers
             return leagueChampion;
         }
 
+        public static SummonerMetaDto GetSummonerMetaByName(string name)
+        {
+            string sURL = String.Format(LeagueURLConstants.APIPaths.SummonerMetaPath, name, APIKey);
+
+            Dictionary<string, SummonerMetaDto> summonerDict = null;
+
+            using (StreamReader response = new StreamReader(_ApiClient.GetStreamAsync(sURL).Result))
+            using (JsonReader jsonResponse = new JsonTextReader(response))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                summonerDict = serializer.Deserialize<Dictionary<string, SummonerMetaDto>>(jsonResponse);
+            }
+
+            if (summonerDict == null)
+            {
+                Console.WriteLine("Error occured while trying to retreive summoner information for {0}", name);
+            }
+
+            return summonerDict.FirstOrDefault().Value;
+        }
         #endregion
     }
 }

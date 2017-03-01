@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIIntroduction.ApiHelpers
+namespace APIIntroductionLibrary.ApiHelpers
 {
     public static class LeagueURLConstants
     {
@@ -22,6 +22,7 @@ namespace APIIntroduction.ApiHelpers
 
             public const string ChampMetaPath = "https://na.api.pvp.net/api/lol/na/v1.2/champion?freeToPlay=TRUE&api_key={0}";
             public const string ChampPath = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/{0}?api_key={1}";
+            public const string SummonerMetaPath = "https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/{0}?api_key={1}";
         }
     }
 }

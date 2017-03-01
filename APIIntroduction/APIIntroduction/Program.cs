@@ -1,5 +1,5 @@
-﻿using APIIntroduction.ApiHelpers;
-using APIIntroduction.LeagueObjects;
+﻿using APIIntroductionLibrary.ApiHelpers;
+using APIIntroductionLibrary.LeagueObjects;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,6 +40,15 @@ namespace APIIntroduction
             {
                 Console.WriteLine(string.Format("{0:000}: {1}", champ.Id, champ.Name));
             }
+
+            Console.WriteLine("Please enter the name of a summoner to get information for");
+            string summonerName = Console.ReadLine();
+
+            //This name should really be checked before doing this
+            //Riot would probably yell at me.
+            SummonerMetaDto summoner = LeagueAPIStaticFunctions.GetSummonerMetaByName(summonerName);
+
+            Console.WriteLine(string.Format("The ID for Summoner with name {0} is {1}", summonerName, summoner.Id));
 
             Console.ReadLine();
         }
