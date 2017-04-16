@@ -79,6 +79,28 @@ namespace APIIntroductionLibrary.ApiHelpers
 
             return summonerDict.FirstOrDefault().Value;
         }
+
+        public static ChampionDto GetMostRecentlyPlayedChamp (string summonerName)
+        {
+            SummonerMetaDto needTheId = GetSummonerMetaByName(summonerName);
+
+            MatchListDto listOfMatches;
+
+            string sURL = String.Format(LeagueURLConstants.APIPaths.MatchListPath, needTheId.Id, LeagueURLConstants.RankedQueues.RankedFlex, APIKey);
+
+            using (StreamReader response = new StreamReader(_ApiClient.GetStreamAsync(sURL).Result))
+            using (JsonReader jsonResponse = new JsonTextReader(response))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                listOfMatches = serializer.Deserialize<MatchListDto>(jsonResponse);
+            }
+
+            MatchReferenceDto mostRecentMatch = listOfMatches.Matches.OrderByDescending(x => x.TimeStamp).First();
+
+            int mostRecentChampId = Convert.ToInt32(mostRecentMatch.Champion);
+
+            return GetChampionFromIDHttpClient(mostRecentChampId);
+        }
         #endregion
     }
 }

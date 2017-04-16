@@ -50,6 +50,10 @@ namespace APIIntroduction
 
             Console.WriteLine(string.Format("The ID for Summoner with name {0} is {1}", summonerName, summoner.Id));
 
+            ChampionDto MostRecentChamp = LeagueAPIStaticFunctions.GetMostRecentlyPlayedChamp(summonerName);
+
+            Console.WriteLine(string.Format("The most recent champt that {0} played is {1}", summonerName, MostRecentChamp.Name));
+
             Console.ReadLine();
         }
     }
