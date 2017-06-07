@@ -19,12 +19,13 @@ namespace APIIntroduction
             if(!File.Exists(APIKeyFile))
             {
                 Console.WriteLine("Please enter in your API Key");
-                LeagueAPIStaticFunctions.APIKey = Console.ReadLine();
-                File.WriteAllText(APIKeyFile, LeagueAPIStaticFunctions.APIKey);
+                string apiKey = Console.ReadLine();
+                LeagueAPIStaticFunctions.ApiClient.DefaultRequestHeaders.Add(LeagueURLConstants.HeaderConstants.APIKeyHeader, apiKey);
+                File.WriteAllText(APIKeyFile, apiKey);
             }
             else
             {
-                LeagueAPIStaticFunctions.APIKey = File.ReadAllText(APIKeyFile);
+                LeagueAPIStaticFunctions.ApiClient.DefaultRequestHeaders.Add(LeagueURLConstants.HeaderConstants.APIKeyHeader, File.ReadAllText(APIKeyFile));
             }
 
             ChampionMetaDtoList freeToPlayMetaList = LeagueAPIStaticFunctions.GetCurrentFreeToPlayListHttpClient();
@@ -46,7 +47,7 @@ namespace APIIntroduction
 
             //This name should really be checked before doing this
             //Riot would probably yell at me.
-            SummonerMetaDto summoner = LeagueAPIStaticFunctions.GetSummonerMetaByName(summonerName);
+            SummonerDto summoner = LeagueAPIStaticFunctions.GetSummonerMetaByName(summonerName);
 
             Console.WriteLine(string.Format("The ID for Summoner with name {0} is {1}", summonerName, summoner.Id));
 

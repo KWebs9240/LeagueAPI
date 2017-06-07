@@ -49,9 +49,14 @@
     <Compile Include="LeagueObjects\ChampionDto.cs" />
     <Compile Include="LeagueObjects\ChampionMetaDto.cs" />
     <Compile Include="LeagueObjects\ChampionMetaDtoList.cs" />
+    <Compile Include="LeagueObjects\MatchDto.cs" />
     <Compile Include="LeagueObjects\MatchListDto.cs" />
     <Compile Include="LeagueObjects\MatchReferenceDto.cs" />
-    <Compile Include="LeagueObjects\SummonerMetaDto.cs" />
+    <Compile Include="LeagueObjects\ParticipantDto.cs" />
+    <Compile Include="LeagueObjects\ParticipantIdentityDto.cs" />
+    <Compile Include="LeagueObjects\ParticipantStatsDto.cs" />
+    <Compile Include="LeagueObjects\PlayerDto.cs" />
+    <Compile Include="LeagueObjects\SummonerDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

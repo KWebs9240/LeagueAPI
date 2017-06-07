@@ -17,7 +17,7 @@ namespace APIIntroductionTests.Steps
         [When(@"I get champion information for ChampID (.*)")]
         public void WhenIGetChampionInformationForChampID(int id)
         {
-            LeagueAPIStaticFunctions.APIKey = ScenarioContext.Current["API_KEY"].ToString();
+            LeagueAPIStaticFunctions.ApiClient.DefaultRequestHeaders.Add(LeagueURLConstants.HeaderConstants.APIKeyHeader, ScenarioContext.Current["API_KEY"].ToString());
 
             ScenarioContext.Current.Add("CHAMP_DTO", LeagueAPIStaticFunctions.GetChampionFromIDHttpClient(id));
         }
@@ -33,7 +33,7 @@ namespace APIIntroductionTests.Steps
         [When(@"I get summoner information for ""(.*)""")]
         public void WhenIGetSummonerInformationFor(string summonerName)
         {
-            LeagueAPIStaticFunctions.APIKey = ScenarioContext.Current["API_KEY"].ToString();
+            LeagueAPIStaticFunctions.ApiClient.DefaultRequestHeaders.Add(LeagueURLConstants.HeaderConstants.APIKeyHeader, ScenarioContext.Current["API_KEY"].ToString());
 
             ScenarioContext.Current.Add("SUMMONER_DTO", LeagueAPIStaticFunctions.GetSummonerMetaByName(summonerName));
         }
@@ -41,10 +41,49 @@ namespace APIIntroductionTests.Steps
         [Then(@"I've gotten information for summoner Id (.*)")]
         public void ThenIVeGottenInformationForSummonerId(int id)
         {
-            SummonerMetaDto summoner = ScenarioContext.Current["SUMMONER_DTO"] as SummonerMetaDto;
+            SummonerDto summoner = ScenarioContext.Current["SUMMONER_DTO"] as SummonerDto;
 
             Assert.IsTrue(summoner.Id.Equals(id));
         }
 
+        [When(@"I get the most recent game for ""(.*)""")]
+        public void WhenIGetTheMostRecentGameFor(string summonerName)
+        {
+            LeagueAPIStaticFunctions.ApiClient.DefaultRequestHeaders.Add(LeagueURLConstants.HeaderConstants.APIKeyHeader, ScenarioContext.Current["API_KEY"].ToString());
+
+            ScenarioContext.Current.Add("MATCH_DTO", LeagueAPIStaticFunctions.GetMostRecentMatch(summonerName));
+        }
+
+        [Then(@"I have a match with a non-zero game id")]
+        public void ThenIHaveAMatchWithANon_ZeroGameId()
+        {
+            MatchDto currentMatch = ScenarioContext.Current.Get<MatchDto>("MATCH_DTO");
+
+            Assert.IsTrue(!currentMatch.GameId.Equals(0));
+        }
+
+        [Then(@"The match has participant identities")]
+        public void ThenTheMatchHasParticipantIdentities()
+        {
+            MatchDto currentMatch = ScenarioContext.Current.Get<MatchDto>("MATCH_DTO");
+
+            Assert.IsTrue(currentMatch.ParticipantIdentities.Any());
+        }
+
+        [Then(@"The match has participants")]
+        public void ThenTheMatchHasParticipants()
+        {
+            MatchDto currentMatch = ScenarioContext.Current.Get<MatchDto>("MATCH_DTO");
+
+            Assert.IsTrue(currentMatch.Participants.Any());
+        }
+
+        [Then(@"The first participant has stats")]
+        public void ThenTheFirstParticipantHasStats()
+        {
+            MatchDto currentMatch = ScenarioContext.Current.Get<MatchDto>("MATCH_DTO");
+
+            Assert.IsTrue(!currentMatch.Participants.First().Stats.TotalDamageDealtToChampions.Equals(0));
+        }
     }
 }

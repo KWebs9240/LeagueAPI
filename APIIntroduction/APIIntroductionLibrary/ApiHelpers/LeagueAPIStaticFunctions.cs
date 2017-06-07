@@ -13,18 +13,17 @@ namespace APIIntroductionLibrary.ApiHelpers
 {
     public static class LeagueAPIStaticFunctions
     {
-        public static string APIKey;
-        private static HttpClient _ApiClient = new HttpClient();
+        public static HttpClient ApiClient = new HttpClient();
 
         #region Using Http Client
 
         public static ChampionMetaDtoList GetCurrentFreeToPlayListHttpClient()
         {
-            string sURL = String.Format(LeagueURLConstants.APIPaths.ChampMetaPath, APIKey);
+            string sURL = String.Format(LeagueURLConstants.APIPaths.ChampMetaPath);
 
             ChampionMetaDtoList freeToPlayChamps = null;
 
-            using (StreamReader response = new StreamReader(_ApiClient.GetStreamAsync(sURL).Result))
+            using (StreamReader response = new StreamReader(ApiClient.GetStreamAsync(sURL).Result))
             using (JsonReader jsonResponse = new JsonTextReader(response))
             {
                 JsonSerializer serializer = new JsonSerializer();
@@ -40,11 +39,11 @@ namespace APIIntroductionLibrary.ApiHelpers
 
         public static ChampionDto GetChampionFromIDHttpClient(int id)
         {
-            string sURL = String.Format(LeagueURLConstants.APIPaths.ChampPath, id.ToString(), APIKey);
+            string sURL = String.Format(LeagueURLConstants.APIPaths.ChampPath, id.ToString());
 
             ChampionDto leagueChampion = null;
 
-            using (StreamReader response = new StreamReader(_ApiClient.GetStreamAsync(sURL).Result))
+            using (StreamReader response = new StreamReader(ApiClient.GetStreamAsync(sURL).Result))
             using (JsonReader jsonResponse = new JsonTextReader(response))
             {
                 JsonSerializer serializer = new JsonSerializer();
@@ -59,47 +58,77 @@ namespace APIIntroductionLibrary.ApiHelpers
             return leagueChampion;
         }
 
-        public static SummonerMetaDto GetSummonerMetaByName(string name)
+        public static SummonerDto GetSummonerMetaByName(string name)
         {
-            string sURL = String.Format(LeagueURLConstants.APIPaths.SummonerMetaPath, name, APIKey);
+            string sURL = String.Format(LeagueURLConstants.APIPaths.SummonerMetaPath, name);
 
-            Dictionary<string, SummonerMetaDto> summonerDict = null;
+            SummonerDto summoner = null;
 
-            using (StreamReader response = new StreamReader(_ApiClient.GetStreamAsync(sURL).Result))
+            using (StreamReader response = new StreamReader(ApiClient.GetStreamAsync(sURL).Result))
             using (JsonReader jsonResponse = new JsonTextReader(response))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                summonerDict = serializer.Deserialize<Dictionary<string, SummonerMetaDto>>(jsonResponse);
+                summoner = serializer.Deserialize<SummonerDto>(jsonResponse);
             }
 
-            if (summonerDict == null)
+            if (summoner == null)
             {
                 Console.WriteLine("Error occured while trying to retreive summoner information for {0}", name);
             }
 
-            return summonerDict.FirstOrDefault().Value;
+            return summoner;
         }
 
-        public static ChampionDto GetMostRecentlyPlayedChamp (string summonerName)
+        public static MatchListDto GetRecentMatchesBySummonerId (long summonerId)
         {
-            SummonerMetaDto needTheId = GetSummonerMetaByName(summonerName);
-
             MatchListDto listOfMatches;
 
-            string sURL = String.Format(LeagueURLConstants.APIPaths.MatchListPath, needTheId.Id, LeagueURLConstants.RankedQueues.RankedFlex, APIKey);
+            string sURL = String.Format(LeagueURLConstants.APIPaths.MatchListPath, summonerId);
 
-            using (StreamReader response = new StreamReader(_ApiClient.GetStreamAsync(sURL).Result))
+            using (StreamReader response = new StreamReader(ApiClient.GetStreamAsync(sURL).Result))
             using (JsonReader jsonResponse = new JsonTextReader(response))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 listOfMatches = serializer.Deserialize<MatchListDto>(jsonResponse);
             }
 
-            MatchReferenceDto mostRecentMatch = listOfMatches.Matches.OrderByDescending(x => x.TimeStamp).First();
+            return listOfMatches;
+        }
+
+        public static MatchDto GetMatchByMatchId (long matchId)
+        {
+            MatchDto match;
+
+            string sURL = String.Format(LeagueURLConstants.APIPaths.MatchPath, matchId);
+
+            using (StreamReader response = new StreamReader(ApiClient.GetStreamAsync(sURL).Result))
+            using (JsonReader jsonResponse = new JsonTextReader(response))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                match = serializer.Deserialize<MatchDto>(jsonResponse);
+            }
+
+            return match;
+        }
+
+        public static ChampionDto GetMostRecentlyPlayedChamp (string summonerName)
+        {
+            SummonerDto needTheId = GetSummonerMetaByName(summonerName);
+
+            MatchReferenceDto mostRecentMatch = GetRecentMatchesBySummonerId(needTheId.Id).Matches.OrderByDescending(x => x.TimeStamp).First();
 
             int mostRecentChampId = Convert.ToInt32(mostRecentMatch.Champion);
 
             return GetChampionFromIDHttpClient(mostRecentChampId);
+        }
+
+        public static MatchDto GetMostRecentMatch (string summonerName)
+        {
+            SummonerDto needTheId = GetSummonerMetaByName(summonerName);
+
+            MatchReferenceDto mostRecentMatch = GetRecentMatchesBySummonerId(needTheId.AccountId).Matches.OrderByDescending(x => x.TimeStamp).First();
+
+            return GetMatchByMatchId(mostRecentMatch.GameId);
         }
         #endregion
     }

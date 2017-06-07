@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace APIIntroductionLibrary.LeagueObjects
 {
-    public class SummonerMetaDto
+    public class SummonerDto
     {
         [JsonProperty("id")]
         public long Id { get; set; }
+
+        [JsonProperty("accountId")]
+        public long AccountId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

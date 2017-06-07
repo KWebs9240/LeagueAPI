@@ -16,14 +16,11 @@ namespace APIIntroductionLibrary.ApiHelpers
 
         public static class APIPaths
         {
-            //add /{id} to get the information for a speific champion
-            public const string StaticChampInfo = "/api/lol/static-data/na/v1.2/champion"; //na is a region specific field
-            public const string DynamicChampInfo = "/api/lol/na/v1.2/champion"; //na is a region specific field
-
-            public const string ChampMetaPath = "https://na.api.pvp.net/api/lol/na/v1.2/champion?freeToPlay=TRUE&api_key={0}";
-            public const string ChampPath = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/{0}?api_key={1}";
-            public const string SummonerMetaPath = "https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/{0}?api_key={1}";
-            public const string MatchListPath = "https://na.api.riotgames.com/api/lol/NA/v2.2/matchlist/by-summoner/{0}?rankedQueues={1}&api_key={2}";
+            public const string ChampMetaPath = "https://na1.api.riotgames.com/lol/platform/v3/champions?freeToPlay=true";
+            public const string ChampPath = "https://na1.api.riotgames.com/lol/static-data/v3/champions/{0}";
+            public const string SummonerMetaPath = "https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/{0}";
+            public const string MatchListPath = "https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/{0}/recent";
+            public const string MatchPath = "https://na1.api.riotgames.com/lol/match/v3/matches/{0}";
         }
 
         public static class RankedQueues
@@ -35,6 +32,11 @@ namespace APIIntroductionLibrary.ApiHelpers
             public const string RankedTeamFives = "RANKED_TEAM_5x5";
             public const string TeamBuilderRankedFives = "TEAM_BUILDER_DRAFT_RANKED_5x5";
             public const string TeamBuilderRankedSolo = "TEAM_BUILDER_RANKED_SOLO";
+        }
+
+        public static class HeaderConstants
+        {
+            public const string APIKeyHeader = "X-Riot-Token";
         }
     }
 }
